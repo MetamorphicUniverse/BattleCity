@@ -18,3 +18,6 @@ add_subdirectory(external/glfw)
 # 	Linking external librery to the project. We specify the name of the project and
 # the name of the librery that we add.
 target_link_libraries(${PROJECT_NAME} glfw)
+
+add_subdirectory(external/glad)
+target_link_libraries(${PROJECT_NAME} glad)
