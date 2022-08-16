@@ -1,6 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Renderer/Shader_Program.h"
 
 
 GLfloat point[] = {
@@ -103,29 +104,39 @@ int main(void)
     
 	glClearColor(0.5, 1, 0.8, 1);
 
-    //### Create and compile shaders programs:
-    
-    // Vertex sader
-    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vs, 1, &vertex_shader, nullptr);
-    glCompileShader(vs);
+    ////### Create and compile shaders programs:
+    //
+    //// Vertex sader
+    //GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+    //glShaderSource(vs, 1, &vertex_shader, nullptr);
+    //glCompileShader(vs);
 
-    // Fragment shader
-    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fs, 1, &fragment_shader, nullptr);
-    glCompileShader(fs);
+    //// Fragment shader
+    //GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+    //glShaderSource(fs, 1, &fragment_shader, nullptr);
+    //glCompileShader(fs);
 
-    // Attaching shaders programs to drivers
-    GLuint shader_program = glCreateProgram();
-    glAttachShader(shader_program, vs);
-    glAttachShader(shader_program, fs);
-    glLinkProgram(shader_program);
+    //// Attaching shaders programs to drivers
+    //GLuint shader_program = glCreateProgram();
+    //glAttachShader(shader_program, vs);
+    //glAttachShader(shader_program, fs);
+    //glLinkProgram(shader_program);
 
-    glDeleteShader(vs);
-    glDeleteShader(fs);
+    //glDeleteShader(vs);
+    //glDeleteShader(fs);
 
-    //### Crate GL Viual Buffer Objects:
-    // Vertex virtual buffer object
+    std::string vertexShader(vertex_shader);
+    std::string fragmentShader(fragment_shader);
+
+    Renderer::Shader_Program alfa(vertex_shader, fragment_shader);
+    if (!alfa.IsCompiled())
+    {
+        std::cerr << "Error. Can't create shader program" << std::endl;
+        return -1;
+    }
+
+    //### Crate GL Virtual Buffer Objects:
+    // Vertex virtual bsuffer object
     GLuint points_vbo = 0;
     glGenBuffers(1, &points_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
@@ -158,7 +169,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
 
-        glUseProgram(shader_program);
+        alfa.use();
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 

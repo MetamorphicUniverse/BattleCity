@@ -1,9 +1,36 @@
+# Chek for minimum required version of CMake
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 
+# Create project name variable
 set(PROJECT_NAME BattleCity)
+
+# 
 project(${PROJECT_NAME})
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+# Set C++ standard for compilator
+set(CMAKE_CXX_STANDARD 17)
+
+# Create a variable with names of sources
+set(SOURCES
+        src/main.cpp
+        src/Renderer/Shader_Program.cpp
+)
+
+# Create a variable with names of headers
+set(HEADERS
+        src/Renderer/Shader_Program.h
+)
+
+#  Set CMake building parameters: name.exe sources headers
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+#set_target_properties(
+#        ${PROJECT_NAME} PROPERTIES
+#        CXX_STANDARD 17
+#        CXX_STANDARD_REQUIRED ON
+#)
+
+#add_executable(${PROJECT_NAME} src/main.cpp)
 
 #Setting something build parameters
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
