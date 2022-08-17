@@ -14,15 +14,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(SOURCES
         src/main.cpp
         src/Renderer/Shader_Program.cpp
+		src/Resources/ResourcesManager.cpp
 )
 
 # Create a variable with names of headers
 set(HEADERS
         src/Renderer/Shader_Program.h
+		src/Resources/ResourcesManager.h
 )
 
 #  Set CMake building parameters: name.exe sources headers
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+#target_compile_features(${PROJECT_NAME} PUBLIC sxx_std_17)
 
 #set_target_properties(
 #        ${PROJECT_NAME} PROPERTIES
@@ -48,3 +52,13 @@ target_link_libraries(${PROJECT_NAME} glfw)
 
 add_subdirectory(external/glad)
 target_link_libraries(${PROJECT_NAME} glad)
+
+#add_subdirectory(src)
+#link_directories(src)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E copy_directory
+					${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
+
