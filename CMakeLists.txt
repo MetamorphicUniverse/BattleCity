@@ -21,10 +21,13 @@ set(SOURCES
 set(HEADERS
         src/Renderer/Shader_Program.h
 		src/Resources/ResourcesManager.h
+		src/Resources/stb_image.h
 )
 
 #  Set CMake building parameters: name.exe sources headers
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
 
 #target_compile_features(${PROJECT_NAME} PUBLIC sxx_std_17)
 
@@ -62,3 +65,10 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${CMAKE_SOURCE_DIR}/res $<TARGET_FILE_DIR:${PROJECT_NAME}>/res)
 
+# Include uWebSockets library to the project
+#find_path(UWEBSOCKETS_INCLUDE_DIRS "uwebsockets/App.h")
+#    target_include_directories(main PRIVATE ${UWEBSOCKETS_INCLUDE_DIRS})
+
+# Include nlohmann-json library to the project
+# find_package(nlohmann_json CONFIG REQUIRED)
+#    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)

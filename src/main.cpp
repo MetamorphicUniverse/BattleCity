@@ -151,6 +151,8 @@ int main(int argc, char** argv)
             return -1;
         }*/
 
+        resourceManager.loadTexture("Default", "res/textures/map_16x16.png");
+
         //### Crate GL Virtual Buffer Objects:
         // Vertex virtual bsuffer object
         GLuint points_vbo = 0;

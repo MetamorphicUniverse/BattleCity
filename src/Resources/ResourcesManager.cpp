@@ -3,6 +3,11 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_PNG
+#include "../Resources/stb_image.h"
+
+
 
 // Constructor()
 //===================================================================================================
@@ -48,6 +53,24 @@ std::shared_ptr<Renderer::Shader_Program> ResourcesManager::getShader(const std:
 	}
 	std::cerr << "Can't find the shader program: " << shaderName << std::endl;
 	return nullptr;
+}
+
+// public: .loadTexture()
+// ==================================================================================================
+void ResourcesManager::loadTexture(const std::string& textureName, const std::string& texturePath)
+{
+	int channels = 0;
+	int width = 0;
+	int height = 0;
+	stbi_set_flip_vertically_on_load(true);
+	stbi_uc* pixels = stbi_load(std::string(m_Path + "/" + texturePath).c_str(), &width, &height, &channels, 0);
+	if (!pixels) {
+		std::cerr << "Error! Can't load texture: " << textureName << std::endl;
+		return;
+	}
+	else std::cout << "Texture test load success!" << std::endl;
+	stbi_image_free(pixels);
+
 }
 
 // private: .readFile()
